@@ -1,6 +1,6 @@
 <template>
   <form>
-    <textarea placeholder="text message and hit enter to send" @keypress.enter="sendMessage" v-model="message"></textarea>
+    <textarea placeholder="text message and hit enter to send" @keydown.enter="sendMessage" v-model="message"></textarea>
   </form>
 </template>
 
@@ -24,8 +24,8 @@ export default {
             };
             
             await addDoc(chat);
-
             message.value = '';
+
 
         }
 

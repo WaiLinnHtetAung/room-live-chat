@@ -1,7 +1,7 @@
 <template>
     <div class="chat-window">
         <div class="messages">
-            <div class="single" v-for="message in messages" :key="message.id">
+            <div class="single" v-for="message in formattedMessages" :key="message.id">
                 <span class="created-at">{{message.created_at}}</span>
                 <span class="name">{{message.name}}</span>
                 <span class="message">{{message.message}}</span>
@@ -11,8 +11,9 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {db} from '../firebase/config'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 export default {
     setup() {
@@ -22,12 +23,20 @@ export default {
             let result = [];
             snap.docs.forEach((doc) => {
                 let message = {id: doc.id, ...doc.data()};
-                result.push(message);
+                doc.data().created_at && result.push(message);
             })
             messages.value = result;
         })
 
-        return {messages}
+        let formattedMessages = computed(() => {
+            return messages.value.map((message) => {
+                let formatTime = formatDistanceToNow(message.created_at.toDate());
+
+                return {...message, created_at: formatTime};
+            })
+        })
+
+        return {messages, formattedMessages}
     }
 }
 </script>

@@ -5,7 +5,15 @@ const routes = [
   {
     path: '/',
     name: 'Welcome',
-    component: () => import('../views/Welcome.vue')
+    component: () => import('../views/Welcome.vue'),
+    beforeEnter(to,from,next) {
+      let user = auth.currentUser;
+      if(!user) {
+        next();
+      } else {
+        next({name: "Chatroom"})
+      }
+    }
   },
   {
     path: '/chatroom',
