@@ -1,14 +1,11 @@
 <template>
-    <nav class="container" v-if="user">
+    <nav v-if="user">
         <div>
             <p>{{user.displayName}}</p>
             <p class="email">Login as {{user.email}}</p>
         </div>
         <button @click="logout">Logout</button>
     </nav>
-    <div v-else class="no-user">
-        No User Now! <router-link to="/">Login?</router-link>
-    </div>
 </template>
 
 <script>
@@ -30,11 +27,12 @@ export default {
 </script>
 
 <style>
-    nav.container {
+    nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 20px;
+        border-bottom: 1px solid #eee;
     }
 
     nav p {
@@ -49,9 +47,4 @@ export default {
 
     }
 
-    .no-user {
-        text-align: center;
-        margin: 50px auto;
-        font-weight: 600;
-    }
 </style>
